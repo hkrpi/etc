@@ -3,7 +3,7 @@
 # September 2003
 
 # Change to one to enable stunnel automatic startup
-ENABLED=0
+ENABLED=1
 FILES="/etc/stunnel/*.conf"
 OPTIONS=""
 

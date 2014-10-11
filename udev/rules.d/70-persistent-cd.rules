@@ -8,5 +8,5 @@
 SUBSYSTEM=="block", ENV{ID_CDROM}=="?*", ENV{ID_PATH}=="platform-bcm2708_usb-usb-0:1.5:1.0-scsi-0:0:0:0", SYMLINK+="cdrom", ENV{GENERATED}="1", RUN+="/usr/bin/sg_raw /dev/sr0 11 06 20 00 00 00 00 00 01 00"
 
 # Mass_Storage (platform-bcm2708_usb-usb-0:1.5:1.0-scsi-0:0:0:0)
-SUBSYSTEM=="block", ENV{ID_CDROM}=="?*", ENV{ID_SERIAL}=="HUAWEI_Mass_Storage_FFFFFFFFFFFFFFFF-0:0", SYMLINK+="cdrom1", ENV{GENERATED}="1"
+SUBSYSTEM=="block", ENV{ID_CDROM}=="?*", ENV{ID_SERIAL}=="HUAWEI_Mass_Storage_FFFFFFFFFFFFFFFF-0:0", SYMLINK+="cdrom1", ENV{GENERATED}="1", RUN+="/usr/bin/sg_raw /dev/sr0 11 06 20 00 00 00 00 00 01 00"
 

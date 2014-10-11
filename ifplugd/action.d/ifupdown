@@ -3,6 +3,7 @@ set -e
 
 case "$2" in
 up)
+	/sbin/ifdown $1 # damn workaround.
 	/sbin/ifup $1
 	;;
 down)

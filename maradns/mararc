@@ -11,7 +11,7 @@
 
 # The address this DNS server runs on.  If you want to bind 
 # to all addresses a given machine has, use "0.0.0.0".
-bind_address = "10.68.9.1,127.0.0.1"
+bind_address = "0.0.0.0"
 # The directory with all of the zone files
 chroot_dir = "/etc/maradns"
 # The numeric UID MaraDNS will run as

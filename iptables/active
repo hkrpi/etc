@@ -30,6 +30,7 @@ COMMIT
 -A INPUT -i wlan0 -p tcp --dport 6890  -j ACCEPT
 -A INPUT -i wlan0 -p tcp --dport 53  -j ACCEPT
 -A INPUT -i wlan0 -p udp --dport 53  -j ACCEPT
+-A INPUT -i wlan0 -p tcp --dport 10443  -j ACCEPT
 -A INPUT -i wlan0 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
 -A FORWARD -m state --state INVALID -j DROP
 -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
@@ -52,7 +53,9 @@ COMMIT
 :POSTROUTING ACCEPT [0:0]
 :CPSESSION - [0:0]
 -A PREROUTING -i wlan0 -p tcp -m tcp --dport 80 -j CPSESSION
+-A PREROUTING -i wlan0 -p tcp -m tcp --dport 443 -j CPSESSION
 -A PREROUTING -i wlan0 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 6890
+-A PREROUTING -i wlan0 -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 10443
 -A POSTROUTING -o eth0 -j MASQUERADE
 -A POSTROUTING -o eth1 -j MASQUERADE
 COMMIT

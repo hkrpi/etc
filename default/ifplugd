@@ -12,6 +12,6 @@
 # listed in HOTPLUG_INTERFACES. The special value all starts one
 # ifplugd for all interfaces being present.
 INTERFACES="auto"
-HOTPLUG_INTERFACES="all"
-ARGS="-q -f -u0 -d10 -w -I"
+HOTPLUG_INTERFACES="eth0 eth1"
+ARGS="-q -f -F -u0 -d10 -w -I"
 SUSPEND_ACTION="stop"

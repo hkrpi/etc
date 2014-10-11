@@ -2,12 +2,12 @@ auto lo
 
 iface lo inet loopback
 
-auto eth0
+#auto eth0
+allow-hotplug eth0
 iface eth0 inet dhcp
 
 # eth1 should be the 3g/3g modem
 allow-hotplug eth1
-auto eth1
 iface eth1 inet dhcp
   metric 10
 
