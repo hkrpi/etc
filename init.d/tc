@@ -52,7 +52,7 @@ tc class add dev wlan0 parent 10: classid 10:1 htb rate $ACCESSPOINT_DOWNLOAD_MA
 # rate = quaranteed , ceil = max, prio = priority
 # 10:10 = DNS, SSH
 # 10:40 = HTTP, HTTPS
-tc class add dev wlan0 parent 10:1 classid 10:10 htb rate 20kbps ceil 400kbps prio 1
+tc class add dev wlan0 parent 10:1 classid 10:10 htb rate 40kbps ceil 400kbps prio 1
 tc class add dev wlan0 parent 10:1 classid 10:40 htb rate 80kbps ceil ${ACCESSPOINT_DOWNLOAD_MAX} prio 4
 # 10:60 = FTP, default
 tc class add dev wlan0 parent 10:1 classid 10:60 htb rate 20kbps ceil ${ACCESSPOINT_DOWNLOAD_MAX} prio 6

@@ -63,7 +63,7 @@ max_total = 20
 # 1: Only startup messages logged (default)
 # 2: Error queries logged
 # 3: All queries logged (but not very verbosely right now)
-verbose_level = 3
+verbose_level = 2
 
 # Initialize the IP aliases, which are used by the list of root name servers,
 # the ACL for zone transfers, and the ACL of who gets to perform recursive
