@@ -28,9 +28,9 @@ tc class add dev eth1 parent 10:1 classid 10:40 htb rate 40kbps ceil ${MOBILE_UP
 tc class add dev eth1 parent 10:1 classid 10:60 htb rate 10kbps ceil 100kbps prio 6
 
 # queue
-tc qdisc add dev eth1 parent 10:10 handle 101: pfifo
-tc qdisc add dev eth1 parent 10:40 handle 104: pfifo
-tc qdisc add dev eth1 parent 10:60 handle 106: pfifo
+tc qdisc add dev eth1 parent 10:10 handle 101: sfq perturb 10
+tc qdisc add dev eth1 parent 10:40 handle 104: sfq perturb 10
+tc qdisc add dev eth1 parent 10:60 handle 106: sfq perturb 10
 
 # filter for MOBILE UPLOAD
 tc filter add dev eth1 parent 10: protocol ip prio 100 handle 10 fw classid 10:10
@@ -53,14 +53,14 @@ tc class add dev wlan0 parent 10: classid 10:1 htb rate $ACCESSPOINT_DOWNLOAD_MA
 # 10:10 = DNS, SSH
 # 10:40 = HTTP, HTTPS
 tc class add dev wlan0 parent 10:1 classid 10:10 htb rate 20kbps ceil 400kbps prio 1
-tc class add dev wlan0 parent 10:1 classid 10:40 htb rate 80kbps ceil 1000kbps prio 4
+tc class add dev wlan0 parent 10:1 classid 10:40 htb rate 80kbps ceil $ACCESSPOINT_DOWNLOAD_MAX prio 4
 # 10:60 = FTP, default
 tc class add dev wlan0 parent 10:1 classid 10:60 htb rate 20kbps ceil 200kbps prio 6
 
 # queue
-tc qdisc add dev wlan0 parent 10:10 handle 101: pfifo
-tc qdisc add dev wlan0 parent 10:40 handle 104: pfifo
-tc qdisc add dev wlan0 parent 10:60 handle 106: pfifo
+tc qdisc add dev wlan0 parent 10:10 handle 101: sfq perturb 10
+tc qdisc add dev wlan0 parent 10:40 handle 104: sfq perturb 10
+tc qdisc add dev wlan0 parent 10:60 handle 106: sfq perturb 10
 
 # filter for MOBILE UPLOAD
 tc filter add dev wlan0 parent 10: protocol ip prio 100 handle 10 fw classid 10:10

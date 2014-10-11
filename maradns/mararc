@@ -4,7 +4,7 @@
 
 # We must initialize the csv1 hash, or MaraDNS will be unable to
 # load any zone files
-csv1 = {}
+#csv1 = {}
 
 # This is just to show the format of the file
 # csv1["example.com."] = "db.example.com"
@@ -63,7 +63,7 @@ max_total = 20
 # 1: Only startup messages logged (default)
 # 2: Error queries logged
 # 3: All queries logged (but not very verbosely right now)
-verbose_level = 2
+verbose_level = 3
 
 # Initialize the IP aliases, which are used by the list of root name servers,
 # the ACL for zone transfers, and the ACL of who gets to perform recursive
@@ -72,6 +72,7 @@ ipv4_alias = {}
 
 # Various sets of root name servers
 # Note: Netmasks can exist, but are ignored when specifying root name server
+ipv4_alias["google"] = "8.8.8.8,8.8.4.4"
 
 # ICANN: the most common and most controversial root name server
 # http://www.icann.org
@@ -180,14 +181,15 @@ recursive_acl = "localhost,wifi"
 # The root servers which we use when making recursive queries.
 
 # The following line must be uncommented to enable recursive queries
-root_servers = {}
+#root_servers = {}
 
 # You can choose which set of root servers to use.  Current values (set above)
 # are: icann, osrc, alternic, opennic,  pacificroot, irsc, tinc, and 
 # superroot.  This line must also be uncommented to enable recursive 
 # queries.
 # root_servers["."] = "osrc"
-root_servers["."] = "icann"
+#root_servers["."] = "google"
+#root_servers["."] = "icann"
 
 # You can tell MaraDNS to *not* query certain DNS servers when in recursive
 # mode.  This is mainly used to not allow spam-friendly domains to resolve,
@@ -224,3 +226,6 @@ spammers = "azmalink,hiddenonline"
 
 
 # And that does it for the caching at this point
+
+upstream_servers = {}
+upstream_servers["."] = "google"
