@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# Project UmbrellaNetwork
+# 
+set -x
+
+WIRED_UPLOAD_MAX="80mbit"
+MOBILE_UPLOAD_MAX="20mbit"
+ACCESSPOINT_DOWNLOAD_MAX="50mbit"
+
+# UPLOAD: MOBILE
+# HSPS is around 5mpbs upload only
+# so for 20 client each user has 250kbps of bandwidth max
+
+# clear
+tc qdisc del dev eth1 root 2>/dev/null
+# default 
+tc qdisc add dev eth1 root handle 10: htb default 60
+# total bandwidth
+tc class add dev eth1 parent 10: classid 10:1 htb rate $MOBILE_UPLOAD_MAX ceil $MOBILE_UPLOAD_MAX
+
+# rate = quaranteed , ceil = max, prio = priority
+# 10:10 = DNS, SSH
+# 10:40 = HTTP, HTTPS
+tc class add dev eth1 parent 10:1 classid 10:10 htb rate 40kbps ceil 4mbit prio 1
+tc class add dev eth1 parent 10:1 classid 10:40 htb rate 40kbps ceil ${MOBILE_UPLOAD_MAX} prio 4
+# 10:60 = FTP, default
+tc class add dev eth1 parent 10:1 classid 10:60 htb rate 10kbps ceil 100kbps prio 6
+
+# queue
+tc qdisc add dev eth1 parent 10:10 handle 101: pfifo
+tc qdisc add dev eth1 parent 10:40 handle 104: pfifo
+tc qdisc add dev eth1 parent 10:60 handle 106: pfifo
+
+# filter for MOBILE UPLOAD
+tc filter add dev eth1 parent 10: protocol ip prio 100 handle 10 fw classid 10:10
+tc filter add dev eth1 parent 10: protocol ip prio 100 handle 40 fw classid 10:40
+tc filter add dev eth1 parent 10: protocol ip prio 100 handle 60 fw classid 10:60
+
+
+# DOWNLOAD: Access Point
+# 802.11g is around 54 mpbs download only
+# so for 20 client each user has 2mbps max bandwidth
+
+# clear
+tc qdisc del dev wlan0 root 2>/dev/null
+# default 
+tc qdisc add dev wlan0 root handle 10: htb default 60
+# total bandwidth
+tc class add dev wlan0 parent 10: classid 10:1 htb rate $ACCESSPOINT_DOWNLOAD_MAX ceil $ACCESSPOINT_DOWNLOAD_MAX
+
+# rate = quaranteed , ceil = max, prio = priority
+# 10:10 = DNS, SSH
+# 10:40 = HTTP, HTTPS
+tc class add dev wlan0 parent 10:1 classid 10:10 htb rate 20kbps ceil 400kbps prio 1
+tc class add dev wlan0 parent 10:1 classid 10:40 htb rate 80kbps ceil 1000kbps prio 4
+# 10:60 = FTP, default
+tc class add dev wlan0 parent 10:1 classid 10:60 htb rate 20kbps ceil 200kbps prio 6
+
+# queue
+tc qdisc add dev wlan0 parent 10:10 handle 101: pfifo
+tc qdisc add dev wlan0 parent 10:40 handle 104: pfifo
+tc qdisc add dev wlan0 parent 10:60 handle 106: pfifo
+
+# filter for MOBILE UPLOAD
+tc filter add dev wlan0 parent 10: protocol ip prio 100 handle 10 fw classid 10:10
+tc filter add dev wlan0 parent 10: protocol ip prio 100 handle 40 fw classid 10:40
+tc filter add dev wlan0 parent 10: protocol ip prio 100 handle 60 fw classid 10:60
