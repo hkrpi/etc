@@ -9,6 +9,7 @@ iface eth0 inet dhcp
 allow-hotplug eth1
 auto eth1
 iface eth1 inet dhcp
+  metric 10
 
 auto wlan0
 iface wlan0 inet static
