@@ -51,3 +51,4 @@ lightdm:!::
 indiecity:!::root
 spi:!::pi
 gpio:!::pi
+maradns:!::
