@@ -7,6 +7,11 @@ up)
 	/sbin/ifup $1
 	;;
 down)
-	/sbin/ifdown $1
+	# damn workaround again
+	if [ "$1" = "wlan0" ]; then
+		echo "skipping"
+	else
+		/sbin/ifdown $1
+	fi
 	;;
 esac

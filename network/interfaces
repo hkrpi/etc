@@ -11,10 +11,10 @@ allow-hotplug eth1
 iface eth1 inet dhcp
   metric 10
 
-auto wlan0
-iface wlan0 inet static
-  address 10.68.9.1
-  netmask 255.255.255.0
+# auto wlan0
+# iface wlan0 inet static
+  # address 10.68.9.1
+  # netmask 255.255.255.0
 
 # allow-hotplug wlan0
 # iface wlan0 inet manual
