@@ -11,7 +11,7 @@ csv1 = {}
 
 # The address this DNS server runs on.  If you want to bind 
 # to all addresses a given machine has, use "0.0.0.0".
-bind_address = "127.0.0.3"
+bind_address = "10.68.9.1,127.0.0.1"
 # The directory with all of the zone files
 chroot_dir = "/etc/maradns"
 # The numeric UID MaraDNS will run as
@@ -35,7 +35,7 @@ maxprocs = 96
 # a sys admin disable all these features.  Just give "no_fingerprint" 
 # a value of one here, and MaraDNS should be more or less 
 # indistinguishable from a tinydns server.
-no_fingerprint = 0
+no_fingerprint = 1
 
 # Normally, MaraDNS only returns A and MX records when given a
 # QTYPE=* (all RR types) query.  Changing the value of default_rrany_set
@@ -63,7 +63,7 @@ max_total = 20
 # 1: Only startup messages logged (default)
 # 2: Error queries logged
 # 3: All queries logged (but not very verbosely right now)
-verbose_level = 1
+verbose_level = 2
 
 # Initialize the IP aliases, which are used by the list of root name servers,
 # the ACL for zone transfers, and the ACL of who gets to perform recursive
@@ -148,8 +148,9 @@ ipv4_alias["opennic"] = "131.161.247.226,209.151.84.102,64.247.218.140,64.247.21
 # Recursive ACL: Who is allowd to perform recursive queries.  The format
 # is identical to that of "zone_transfer_acl", including ipv4_alias support
 
-# ipv4_alias["localhost"] = "127.0.0.0/8"
-# recursive_acl = "localhost"
+ipv4_alias["localhost"] = "127.0.0.0/8"
+ipv4_alias["wifi"] = "10.68.9.0/24"
+recursive_acl = "localhost,wifi"
 
 # Random seed file: The file from which we read 16 bytes from to get the
 # 128-bit random Rijndael key.  This is ideally a file which is a good source
@@ -179,13 +180,14 @@ ipv4_alias["opennic"] = "131.161.247.226,209.151.84.102,64.247.218.140,64.247.21
 # The root servers which we use when making recursive queries.
 
 # The following line must be uncommented to enable recursive queries
-# root_servers = {}
+root_servers = {}
 
 # You can choose which set of root servers to use.  Current values (set above)
 # are: icann, osrc, alternic, opennic,  pacificroot, irsc, tinc, and 
 # superroot.  This line must also be uncommented to enable recursive 
 # queries.
 # root_servers["."] = "osrc"
+root_servers["."] = "icann"
 
 # You can tell MaraDNS to *not* query certain DNS servers when in recursive
 # mode.  This is mainly used to not allow spam-friendly domains to resolve,
@@ -199,12 +201,12 @@ ipv4_alias["opennic"] = "131.161.247.226,209.151.84.102,64.247.218.140,64.247.21
 # for details.)  Note that this is based on IPs, and azmalink.net constantly
 # changes IPs (as they constantly have to change ISPs)
 # 2002/10/12: Azmalink changed ISP again, this reflect their current ISP
-#ipv4_alias["azmalink"] = "12.164.194.0/24"
+ipv4_alias["azmalink"] = "12.164.194.0/24"
 
 # As of September 20, 2001, hiddenonline.net is a known spam-friendly
 # DNS provider (see doc/detailed/spammers/hiddenonline for details).
-#ipv4_alias["hiddenonline"] = "65.107.225.0/24"
-#spammers = "azmalink,hiddenonline"
+ipv4_alias["hiddenonline"] = "65.107.225.0/24"
+spammers = "azmalink,hiddenonline"
 
 # It is also possible to change the maximum number of times MaraDNS will
 # follow a CNAME record or a NS record with a glue A record.  The default
@@ -222,4 +224,3 @@ ipv4_alias["opennic"] = "131.161.247.226,209.151.84.102,64.247.218.140,64.247.21
 
 
 # And that does it for the caching at this point
-
